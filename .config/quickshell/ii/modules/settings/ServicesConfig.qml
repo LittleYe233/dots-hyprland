@@ -220,11 +220,15 @@ ContentPage {
                     },
                     {
                         displayName: Translation.tr("12h am/pm"),
-                        value: "h:mm ap"
+                        value: "hh:mm ap"
                     },
                     {
                         displayName: Translation.tr("12h AM/PM"),
-                        value: "h:mm AP"
+                        value: "hh:mm AP"
+                    },
+                    {
+                        displayName: Translation.tr("12h AM/PM (with seconds)"),
+                        value: "hh:mm:ss AP"
                     },
                 ]
             }
