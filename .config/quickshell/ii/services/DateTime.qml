@@ -11,7 +11,7 @@ pragma ComponentBehavior: Bound
 Singleton {
     property var clock: SystemClock {
         id: clock
-        precision: SystemClock.Minutes
+        precision: SystemClock.Seconds
     }
     property string time: Qt.locale().toString(clock.date, Config.options?.time.format ?? "hh:mm")
     property string date: Qt.locale().toString(clock.date, Config.options?.time.dateFormat ?? "dddd, dd/MM")
