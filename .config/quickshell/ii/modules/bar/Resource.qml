@@ -4,9 +4,14 @@ import QtQuick
 import QtQuick.Layouts
 
 Item {
+    id: root
+
     required property string iconName
     required property double percentage
     property bool shown: true
+    property string tooltipText: ""
+    property bool hovered: false
+
     clip: true
     visible: width > 0 && height > 0
     implicitWidth: resourceRowLayout.x < 0 ? 0 : childrenRect.width
@@ -16,6 +21,26 @@ Item {
         spacing: 4
         id: resourceRowLayout
         x: shown ? 0 : -resourceRowLayout.width
+
+        // Very very ugly!!! And WHY THE ANIMATION NOT WORKING!!!
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            onEntered: {
+                root.hovered = true;
+            }
+            onExited: {
+                root.hovered = false;
+            }
+        }
+
+        StyledToolTip {
+            delay: 200
+            // WHY SHOULD BE NEGATIVE?!
+            verticalPadding: -55
+            extraVisibleCondition: root.hovered && root.tooltipText.length > 0
+            content: root.tooltipText
+        }
 
         CircularProgress {
             Layout.alignment: Qt.AlignVCenter

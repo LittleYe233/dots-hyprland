@@ -22,6 +22,7 @@ Item {
         Resource {
             iconName: "memory"
             percentage: ResourceUsage.memoryUsedPercentage
+            tooltipText: "RAM: %1%".arg((percentage * 100).toFixed(0))
         }
 
         Resource {
@@ -31,6 +32,7 @@ Item {
                 (MprisController.activePlayer?.trackTitle == null) ||
                 root.alwaysShowAllResources
             Layout.leftMargin: shown ? 4 : 0
+            tooltipText: "Swap: %1%".arg((percentage * 100).toFixed(0))
         }
 
         Resource {
@@ -40,6 +42,7 @@ Item {
                 !(MprisController.activePlayer?.trackTitle?.length > 0) ||
                 root.alwaysShowAllResources
             Layout.leftMargin: shown ? 4 : 0
+            tooltipText: "CPU: %1%".arg((percentage * 100).toFixed(0))
         }
 
     }
