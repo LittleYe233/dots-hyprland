@@ -290,6 +290,10 @@ Scope {
                             BarGroup {
                                 id: rightCenterGroupContent
                                 anchors.fill: parent
+                                // This is very ugly, but I do not know how to
+                                // make the clock widget have more horizontal
+                                // margin.
+                                padding: -15
 
                                 ClockWidget {
                                     showDate: (Config.options.bar.verbose && barRoot.useShortenedForm < 2)
