@@ -25,45 +25,6 @@ Item {
         id: resourceRowLayout
         spacing: 2
         x: shown ? 0 : -resourceRowLayout.width
-
-        // Very very ugly!!! And WHY THE ANIMATION NOT WORKING!!!
-        MouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            onEntered: {
-                root.hovered = true;
-            }
-            onExited: {
-                root.hovered = false;
-            }
-        }
-
-        StyledToolTip {
-            delay: 200
-            // WHY SHOULD BE NEGATIVE?!
-            verticalPadding: -55
-            extraVisibleCondition: root.hovered && root.tooltipText.length > 0
-            content: root.tooltipText
-        }
-
-        CircularProgress {
-            Layout.alignment: Qt.AlignVCenter
-            lineWidth: 2
-            value: percentage
-            size: 26
-            secondaryColor: Appearance.colors.colSecondaryContainer
-            primaryColor: Appearance.m3colors.m3onSecondaryContainer
-            enableAnimation: false
-
-            MaterialSymbol {
-                anchors.centerIn: parent
-                fill: 1
-                text: iconName
-                iconSize: Appearance.font.pixelSize.normal
-                color: Appearance.m3colors.m3onSecondaryContainer
-            }
-
-        // Merged from remote here
         anchors {
             verticalCenter: parent.verticalCenter
         }
