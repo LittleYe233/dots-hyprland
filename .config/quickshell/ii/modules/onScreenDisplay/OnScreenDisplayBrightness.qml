@@ -12,12 +12,11 @@ import Quickshell.Wayland
 
 Scope {
     id: root
-    property bool showOsdValues: false
     property var focusedScreen: Quickshell.screens.find(s => s.name === Hyprland.focusedMonitor?.name)
     property var brightnessMonitor: Brightness.getMonitorForScreen(focusedScreen)
 
     function triggerOsd() {
-        showOsdValues = true
+        GlobalStates.osdBrightnessOpen = true
         osdTimeout.restart()
     }
 
@@ -27,7 +26,7 @@ Scope {
         repeat: false
         running: false
         onTriggered: {
-            showOsdValues = false
+            GlobalStates.osdBrightnessOpen = false
         }
     }
     
@@ -35,7 +34,7 @@ Scope {
         target: Audio.sink?.audio ?? null
         function onVolumeChanged() {
             if (!Audio.ready) return
-            root.showOsdValues = false
+            GlobalStates.osdBrightnessOpen = false
         }
     }
 
@@ -49,10 +48,11 @@ Scope {
 
     Loader {
         id: osdLoader
-        active: showOsdValues
+        active: GlobalStates.osdBrightnessOpen
 
         sourceComponent: PanelWindow {
             id: osdRoot
+            color: "transparent"
 
             Connections {
                 target: root
@@ -61,17 +61,21 @@ Scope {
                 }
             }
 
-            exclusionMode: ExclusionMode.Normal
             WlrLayershell.namespace: "quickshell:onScreenDisplay"
             WlrLayershell.layer: WlrLayer.Overlay
-            color: "transparent"
-
             anchors {
                 top: !Config.options.bar.bottom
                 bottom: Config.options.bar.bottom
             }
             mask: Region {
                 item: osdValuesWrapper
+            }
+
+            exclusionMode: ExclusionMode.Ignore
+            exclusiveZone: 0
+            margins {
+                top: Appearance.sizes.barHeight
+                bottom: Appearance.sizes.barHeight
             }
 
             implicitWidth: columnLayout.implicitWidth
@@ -91,7 +95,7 @@ Scope {
                     MouseArea {
                         anchors.fill: parent
                         hoverEnabled: true
-                        onEntered: root.showOsdValues = false
+                        onEntered: GlobalStates.osdBrightnessOpen = false
                     }
 
                     Behavior on implicitHeight {
@@ -125,11 +129,11 @@ Scope {
         }
 
         function hide() {
-            showOsdValues = false
+            GlobalStates.osdBrightnessOpen = false
         }
 
         function toggle() {
-            showOsdValues = !showOsdValues
+            GlobalStates.osdBrightnessOpen = !GlobalStates.osdBrightnessOpen
         }
 	}
 
@@ -146,7 +150,7 @@ Scope {
         description: "Hides brightness OSD on press"
 
         onPressed: {
-            root.showOsdValues = false
+            GlobalStates.osdBrightnessOpen = false
         }
     }
 

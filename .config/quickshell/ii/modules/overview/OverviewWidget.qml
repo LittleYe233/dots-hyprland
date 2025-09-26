@@ -20,7 +20,7 @@ Item {
     property var windows: HyprlandData.windowList
     property var windowByAddress: HyprlandData.windowByAddress
     property var windowAddresses: HyprlandData.addresses
-    property var monitorData: HyprlandData.monitors.find(m => m.id === root.monitor.id)
+    property var monitorData: HyprlandData.monitors.find(m => m.id === root.monitor?.id)
     property real scale: Config.options.overview.scale
     property color activeBorderColor: Appearance.colors.colSecondary
 
@@ -32,7 +32,7 @@ Item {
         ((monitor.height - monitorData?.reserved[1] - monitorData?.reserved[3]) * root.scale / monitor.scale)
 
     property real workspaceNumberMargin: 80
-    property real workspaceNumberSize: Math.min(workspaceImplicitHeight, workspaceImplicitWidth) * monitor.scale
+    property real workspaceNumberSize: 250 * monitor.scale
     property int workspaceZ: 0
     property int windowZ: 1
     property int windowDraggingZ: 99999
@@ -61,7 +61,7 @@ Item {
         radius: Appearance.rounding.screenRounding * root.scale + padding
         color: Appearance.colors.colLayer0
         border.width: 1
-        border.color: Appearance.m3colors.m3outlineVariant
+        border.color: Appearance.colors.colLayer0Border
 
         ColumnLayout { // Workspaces
             id: workspaceColumnLayout
@@ -97,8 +97,11 @@ Item {
                             StyledText {
                                 anchors.centerIn: parent
                                 text: workspaceValue
-                                font.pixelSize: root.workspaceNumberSize * root.scale
-                                font.weight: Font.DemiBold
+                                font {
+                                    pixelSize: root.workspaceNumberSize * root.scale
+                                    weight: Font.DemiBold
+                                    family: Appearance.font.family.expressive
+                                }
                                 color: ColorUtils.transparentize(Appearance.colors.colOnLayer1, 0.8)
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
@@ -149,14 +152,15 @@ Item {
                             const address = `0x${toplevel.HyprlandToplevel.address}`
                             var win = windowByAddress[address]
                             const inWorkspaceGroup = (root.workspaceGroup * root.workspacesShown < win?.workspace?.id && win?.workspace?.id <= (root.workspaceGroup + 1) * root.workspacesShown)
-                            const inMonitor = root.monitor.id === win.monitor
-                            return inWorkspaceGroup && inMonitor;
+                            return inWorkspaceGroup;
                         })
                     }
                 }
                 delegate: OverviewWindow {
                     id: window
                     required property var modelData
+                    property int monitorId: windowData?.monitor
+                    property var monitor: HyprlandData.monitors[monitorId]
                     property var address: `0x${modelData.HyprlandToplevel.address}`
                     windowData: windowByAddress[address]
                     toplevel: modelData
@@ -164,9 +168,7 @@ Item {
                     scale: root.scale
                     availableWorkspaceWidth: root.workspaceImplicitWidth
                     availableWorkspaceHeight: root.workspaceImplicitHeight
-
-                    property int monitorId: windowData?.monitor
-                    property var monitor: HyprlandData.monitors[monitorId]
+                    widgetMonitorId: root.monitor.id
 
                     property bool atInitPosition: (initX == x && initY == y)
 
@@ -236,7 +238,7 @@ Item {
                         StyledToolTip {
                             extraVisibleCondition: false
                             alternativeVisibleCondition: dragArea.containsMouse && !window.Drag.active
-                            content: `${windowData.title}\n[${windowData.class}] ${windowData.xwayland ? "[XWayland] " : ""}\n`
+                            text: `${windowData.title}\n[${windowData.class}] ${windowData.xwayland ? "[XWayland] " : ""}`
                         }
                     }
                 }

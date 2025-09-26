@@ -21,7 +21,7 @@ Item {
 
     Timer {
         running: activePlayer?.playbackState == MprisPlaybackState.Playing
-        interval: 1000
+        interval: Config.options.resources.updateInterval
         repeat: true
         onTriggered: activePlayer.positionChanged()
     }
@@ -37,7 +37,7 @@ Item {
             } else if (event.button === Qt.ForwardButton || event.button === Qt.RightButton) {
                 activePlayer.next();
             } else if (event.button === Qt.LeftButton) {
-                Hyprland.dispatch("global quickshell:mediaControlsToggle")
+                GlobalStates.mediaControlsOpen = !GlobalStates.mediaControlsOpen
             }
         }
     }
@@ -48,24 +48,28 @@ Item {
         spacing: 4
         anchors.fill: parent
 
-        CircularProgress {
+        ClippedFilledCircularProgress {
+            id: mediaCircProg
             Layout.alignment: Qt.AlignVCenter
-            Layout.leftMargin: rowLayout.spacing
-            lineWidth: 2
+            lineWidth: Appearance.rounding.unsharpen
             value: activePlayer?.position / activePlayer?.length
-            size: 26
-            secondaryColor: Appearance.colors.colSecondaryContainer
-            primaryColor: Appearance.m3colors.m3onSecondaryContainer
+            implicitSize: 20
+            colPrimary: Appearance.colors.colOnSecondaryContainer
             enableAnimation: false
 
-            MaterialSymbol {
+            Item {
                 anchors.centerIn: parent
-                fill: 1
-                text: activePlayer?.isPlaying ? "pause" : "music_note"
-                iconSize: Appearance.font.pixelSize.normal
-                color: Appearance.m3colors.m3onSecondaryContainer
+                width: mediaCircProg.implicitSize
+                height: mediaCircProg.implicitSize
+                
+                MaterialSymbol {
+                    anchors.centerIn: parent
+                    fill: 1
+                    text: activePlayer?.isPlaying ? "pause" : "music_note"
+                    iconSize: Appearance.font.pixelSize.normal
+                    color: Appearance.m3colors.m3onSecondaryContainer
+                }
             }
-
         }
 
         StyledText {

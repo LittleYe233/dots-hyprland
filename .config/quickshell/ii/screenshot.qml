@@ -1,6 +1,7 @@
 //@ pragma UseQApplication
 //@ pragma Env QS_NO_RELOAD_POPUP=1
 //@ pragma Env QT_QUICK_CONTROLS_STYLE=Basic
+//@ pragma Env QT_QUICK_FLICKABLE_WHEEL_DECELERATION=10000
 
 // Adjust this to make it smaller or larger
 //@ pragma Env QT_SCALE_FACTOR=1
@@ -134,7 +135,7 @@ ShellRoot {
                 const layersOfThisMonitor = root.layers[panelWindow.hyprlandMonitor.name]
                 const topLayers = layersOfThisMonitor.levels["2"]
                 const nonBarTopLayers = topLayers
-                    .filter(layer => !(layer.namespace.includes(":bar") || layer.namespace.includes(":dock")))
+                    .filter(layer => !(layer.namespace.includes(":bar") || layer.namespace.includes(":verticalBar") || layer.namespace.includes(":dock")))
                     .map(layer => {
                     return {
                         at: [layer.x, layer.y],

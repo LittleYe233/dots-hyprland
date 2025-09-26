@@ -1,7 +1,7 @@
 import qs.modules.common
+import qs.modules.common.widgets
 import qs.modules.common.functions
 import QtQuick
-import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.SystemTray
 import Quickshell.Widgets
@@ -9,16 +9,17 @@ import Qt5Compat.GraphicalEffects
 
 MouseArea {
     id: root
-
-    required property var bar
     required property SystemTrayItem item
     property bool targetMenuOpen: false
-    property int trayItemWidth: Appearance.font.pixelSize.larger
 
+    signal menuOpened(qsWindow: var)
+    signal menuClosed()
+
+    hoverEnabled: true
     acceptedButtons: Qt.LeftButton | Qt.RightButton
-    Layout.fillHeight: true
-    implicitWidth: trayItemWidth
-    onClicked: (event) => {
+    implicitWidth: 20
+    implicitHeight: 20
+    onPressed: (event) => {
         switch (event.button) {
         case Qt.LeftButton:
             item.activate();
@@ -29,16 +30,37 @@ MouseArea {
         }
         event.accepted = true;
     }
+    onEntered: {
+        tooltip.text = item.tooltipTitle.length > 0 ? item.tooltipTitle
+                : (item.title.length > 0 ? item.title : item.id);
+        if (item.tooltipDescription.length > 0) tooltip.text += " • " + item.tooltipDescription;
+        if (Config.options.bar.tray.showItemId) tooltip.text += "\n[" + item.id + "]";
+    }
 
-    QsMenuAnchor {
+    Loader {
         id: menu
-
-        menu: root.item.menu
-        anchor.window: bar
-        anchor.rect.x: root.x + bar.width
-        anchor.rect.y: root.y
-        anchor.rect.height: root.height
-        anchor.edges: Edges.Bottom
+        function open() {
+            menu.active = true;
+        }
+        active: false
+        sourceComponent: SysTrayMenu {
+            Component.onCompleted: this.open();
+            trayItemMenuHandle: root.item.menu
+            anchor {
+                window: root.QsWindow.window
+                rect.x: root.x + (Config.options.bar.vertical ? 0 : QsWindow.window?.width)
+                rect.y: root.y + (Config.options.bar.vertical ? QsWindow.window?.height : 0)
+                rect.height: root.height
+                rect.width: root.width
+                edges: Config.options.bar.bottom ? (Edges.Top | Edges.Left) : (Edges.Bottom | Edges.Right)
+                gravity: Config.options.bar.bottom ? (Edges.Top | Edges.Left) : (Edges.Bottom | Edges.Right)
+            }
+            onMenuOpened: (window) => root.menuOpened(window);
+            onMenuClosed: {
+                root.menuClosed();
+                menu.active = false;
+            }
+        }
     }
 
     IconImage {
@@ -67,6 +89,13 @@ MouseArea {
                 color: ColorUtils.transparentize(Appearance.colors.colOnLayer0, 0.9)
             }
         }
+    }
+
+    PopupToolTip {
+        id: tooltip
+        extraVisibleCondition: root.containsMouse
+        alternativeVisibleCondition: extraVisibleCondition
+        anchorEdges: (!Config.options.bar.bottom && !Config.options.bar.vertical) ? Edges.Bottom : Edges.Top
     }
 
 }

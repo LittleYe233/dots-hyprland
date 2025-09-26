@@ -24,6 +24,15 @@ Item {
     property var suggestionList: []
 
     Connections {
+        target: Config
+        function onReadyChanged() {
+            if (Config.options.policies.weeb !== 0) {
+                Quickshell.execDetached(["bash", "-c", `mkdir -p '${root.downloadPath}' && mkdir -p '${root.nsfwPath}'`])
+            }
+        }
+    }
+
+    Connections {
         target: Booru
         function onTagSuggestion(query, suggestions) {
             root.suggestionQuery = query;
@@ -132,31 +141,30 @@ Item {
         Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
+
+            layer.enabled: true
+            layer.effect: OpacityMask {
+                maskSource: Rectangle {
+                    width: swipeView.width
+                    height: swipeView.height
+                    radius: Appearance.rounding.small
+                }
+            }
+
+            ScrollEdgeFade {
+                target: booruResponseListView
+                vertical: true
+            }
+
             StyledListView { // Booru responses
                 id: booruResponseListView
                 anchors.fill: parent
                 spacing: 10
                 
+                touchpadScrollFactor: Config.options.interactions.scrolling.touchpadScrollFactor * 1.4
+                mouseScrollFactor: Config.options.interactions.scrolling.mouseScrollFactor * 1.4
+
                 property int lastResponseLength: 0
-
-                clip: true
-                layer.enabled: true
-                layer.effect: OpacityMask {
-                    maskSource: Rectangle {
-                        width: swipeView.width
-                        height: swipeView.height
-                        radius: Appearance.rounding.small
-                    }
-                }
-
-                Behavior on contentY {
-                    NumberAnimation {
-                        id: scrollAnim
-                        duration: Appearance.animation.scroll.duration
-                        easing.type: Appearance.animation.scroll.type
-                        easing.bezierCurve: Appearance.animation.scroll.bezierCurve
-                    }
-                }
 
                 model: ScriptModel {
                     values: {
@@ -492,40 +500,12 @@ Item {
                     }, 
                 ]
 
-                Item {
-                    implicitHeight: providerRowLayout.implicitHeight + 5 * 2
-                    implicitWidth: providerRowLayout.implicitWidth + 10 * 2
-                    
-                    RowLayout {
-                        id: providerRowLayout
-                        anchors.centerIn: parent
-
-                        MaterialSymbol {
-                            text: "api"
-                            iconSize: Appearance.font.pixelSize.large
-                        }
-                        StyledText {
-                            id: providerName
-                            font.pixelSize: Appearance.font.pixelSize.small
-                            color: Appearance.m3colors.m3onSurface
-                            text: Booru.providers[Booru.currentProvider].name
-                        }
-                    }
-                    StyledToolTip {
-                        id: toolTip
-                        extraVisibleCondition: false
-                        alternativeVisibleCondition: mouseArea.containsMouse // Show tooltip when hovered
-                        // content: Translation.tr("The current API used. Endpoint: ") + Booru.providers[Booru.currentProvider].url + Translation.tr("\nSet with /mode PROVIDER")
-                        content: Translation.tr("Current API endpoint: %1\nSet it with %2mode PROVIDER")
-                            .arg(Booru.providers[Booru.currentProvider].url)
-                            .arg(root.commandPrefix)
-                    }
-
-                    MouseArea {
-                        id: mouseArea
-                        anchors.fill: parent
-                        hoverEnabled: true
-                    }
+                ApiInputBoxIndicator { // Tool indicator
+                    icon: "api"
+                    text: Booru.providers[Booru.currentProvider].name
+                    tooltipText: Translation.tr("Current API endpoint: %1\nSet it with %2mode PROVIDER")
+                        .arg(Booru.providers[Booru.currentProvider].url)
+                        .arg(root.commandPrefix)
                 }
 
                 StyledText {

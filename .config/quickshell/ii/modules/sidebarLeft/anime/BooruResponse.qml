@@ -97,7 +97,7 @@ Rectangle {
             }
         }
 
-        Flickable { // Tag strip
+        StyledFlickable { // Tag strip
             id: tagsFlickable
             visible: root.responseData.tags.length > 0
             Layout.alignment: Qt.AlignLeft
@@ -105,7 +105,6 @@ Rectangle {
                 return true
             }
             implicitHeight: tagRowLayout.implicitHeight
-            // height: tagRowLayout.implicitHeight
             contentWidth: tagRowLayout.implicitWidth
 
             clip: true
@@ -118,9 +117,6 @@ Rectangle {
                 }
             }
 
-            Behavior on height {
-                animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
-            }
             Behavior on implicitHeight {
                 animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
             }
@@ -158,7 +154,7 @@ Rectangle {
             textFormat: Text.MarkdownText
             onLinkActivated: (link) => {
                 Qt.openUrlExternally(link)
-                Hyprland.dispatch("global quickshell:sidebarLeftClose")
+                GlobalStates.sidebarLeftOpen = false
             }
             PointingHandLinkHover {}
         }

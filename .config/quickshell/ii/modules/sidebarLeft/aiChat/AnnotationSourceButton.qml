@@ -1,7 +1,7 @@
 import qs.modules.common
 import qs.modules.common.widgets
-import qs.services
 import qs.modules.common.functions
+import qs.services
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Hyprland
@@ -24,7 +24,7 @@ RippleButton {
     onClicked: {
         if (url) {
             Qt.openUrlExternally(url)
-            Hyprland.dispatch("global quickshell:sidebarLeftClose")
+            GlobalStates.sidebarLeftOpen = false
         }
     }
 

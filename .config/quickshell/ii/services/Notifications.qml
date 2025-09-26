@@ -34,11 +34,9 @@ Singleton {
         property string urgency: notification?.urgency.toString() ?? "normal"
         property Timer timer
 
-        readonly property Connections conn: Connections {
-            target: wrapper?.notification?.Component ?? root // stupid warning aaaaaaa
-
-            function onDestruction(): void {
-                wrapper.destroy();
+        onNotificationChanged: {
+            if (notification === null) {
+                root.discardNotification(notificationId);
             }
         }
     }
@@ -62,7 +60,7 @@ Singleton {
 
     component NotifTimer: Timer {
         required property int notificationId
-        interval: 5000
+        interval: 7000
         running: true
         onTriggered: () => {
             root.timeoutNotification(notificationId);
@@ -170,7 +168,7 @@ Singleton {
                 if (notification.expireTimeout != 0) {
                     newNotifObject.timer = notifTimerComponent.createObject(root, {
                         "notificationId": newNotifObject.notificationId,
-                        "interval": notification.expireTimeout < 0 ? 5000 : notification.expireTimeout,
+                        "interval": notification.expireTimeout < 0 ? (Config?.options.notifications.timeout ?? 7000) : notification.expireTimeout,
                     });
                 }
             }
@@ -204,6 +202,12 @@ Singleton {
             notif.dismiss()
         })
         root.discardAll();
+    }
+
+    function cancelTimeout(id) {
+        const index = root.list.findIndex((notif) => notif.notificationId === id);
+        if (root.list[index] != null)
+            root.list[index].timer.stop();
     }
 
     function timeoutNotification(id) {
