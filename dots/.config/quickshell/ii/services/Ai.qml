@@ -333,17 +333,17 @@ Singleton {
             "key_get_link": "https://github.com/settings/tokens",
             "key_get_description": Translation.tr("**Pricing**: Free tier available with limited rates. See https://docs.github.com/en/billing/concepts/product-billing/github-models\n\n**Instructions**: Generate a GitHub personal access token with Models permission, then set as API key here\n\n**Note**: To use this you will have to set the temperature parameter to 1"),
         }),
-        "openrouter-deepseek-r1": aiModelComponent.createObject(this, {
-            "name": "DeepSeek R1",
+        "openrouter-deepseek-v3-0324": aiModelComponent.createObject(this, {
+            "name": "DeepSeek V3 0324",
             "icon": "deepseek-symbolic",
             "description": Translation.tr("Online via %1 | %2's model").arg("OpenRouter").arg("DeepSeek"),
-            "homepage": "https://openrouter.ai/deepseek/deepseek-r1:free",
+            "homepage": "https://openrouter.ai/deepseek/deepseek-chat-v3-0324",
             "endpoint": "https://openrouter.ai/api/v1/chat/completions",
-            "model": "deepseek/deepseek-r1:free",
+            "model": "deepseek/deepseek-chat-v3-0324",
             "requires_key": true,
             "key_id": "openrouter",
             "key_get_link": "https://openrouter.ai/settings/keys",
-            "key_get_description": Translation.tr("**Pricing**: free. Data use policy varies depending on your OpenRouter account settings.\n\n**Instructions**: Log into OpenRouter account, go to Keys on the topright menu, click Create API Key"),
+            "key_get_description": Translation.tr("**Instructions**: Log into OpenRouter account, go to Keys on the topright menu, click Create API Key"),
         }),
     }
     property var modelList: Object.keys(root.models)
