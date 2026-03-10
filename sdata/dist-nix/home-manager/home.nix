@@ -2,10 +2,11 @@
 #nixgl, 
 quickshell, home_attrs, ... }:
 {
-  programs.home-manager.enable = true;
+  # It should be configured in ~/.config/home-manager/home.nix.
+  #programs.home-manager.enable = true;
 
   # Necessary for non-NixOS to handle GPU (since home-manager version 25.11)
-  targets.genericLinux.enable = true;
+  #targets.genericLinux.enable = true;
   #nixGL.packages = nixgl.packages;
   #nixGL.defaultWrapper = "mesa";
 
@@ -26,15 +27,6 @@ quickshell, home_attrs, ... }:
   # Note: The following generate files under ~/.config/fontconfig/conf.d/
   # fontconfig may rely on this to properly find fonts installed via Nix.
   fonts.fontconfig.enable = true;
-
-  wayland.windowManager.hyprland = {
-    ## Make sure home-manager not generate ~/.config/hypr/hyprland.conf
-    systemd.enable = false; plugins = []; settings = {}; extraConfig = "";
-    enable = true;
-    ## Use NixGL
-    #package = config.lib.nixGL.wrap pkgs.hyprland;
-    package = pkgs.hyprland;
-  };
 
   home = {
     packages = with pkgs; [
