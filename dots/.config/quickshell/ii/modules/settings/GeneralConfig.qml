@@ -320,15 +320,15 @@ ContentPage {
                 options: [
                     {
                         displayName: Translation.tr("24h"),
-                        value: "hh:mm"
+                        value: Config.options.time.secondPrecision ? "hh:mm:ss" : "hh:mm"
                     },
                     {
                         displayName: Translation.tr("12h am/pm"),
-                        value: "h:mm ap"
+                        value: Config.options.time.secondPrecision ? "h:mm:ss ap" : "h:mm ap"
                     },
                     {
                         displayName: Translation.tr("12h AM/PM"),
-                        value: "h:mm AP"
+                        value: Config.options.time.secondPrecision ? "h:mm:ss AP" : "h:mm AP"
                     },
                 ]
             }
