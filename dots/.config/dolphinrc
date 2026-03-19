@@ -1,10 +1,16 @@
-[DetailsMode]
-PreviewSize=32
+[ContextMenu]
+ShowViewMode=false
+
+[FoldersPanel]
+HiddenFilesShown=true
 
 [General]
 ShowFullPath=true
 ShowStatusBar=FullWidth
 Version=202
+
+[InformationPanel]
+previewsShown=false
 
 [KFileDialog Settings]
 Places Icons Auto-resize=false
