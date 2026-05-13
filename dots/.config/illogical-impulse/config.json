@@ -269,7 +269,7 @@
         "antiFlashbang": {
             "enable": false
         },
-        "backlightDevice": "intel_backlight",
+        "backlightDevice": "nvidia_0",
         "night": {
             "automatic": false,
             "colorTemperature": 5000,
