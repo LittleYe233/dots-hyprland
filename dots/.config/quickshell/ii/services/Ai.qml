@@ -295,7 +295,7 @@ Singleton {
             "api_format": "mistral",
         }),
         "openrouter-deepseek-v3-0324": aiModelComponent.createObject(this, {
-            "name": "DeepSeek V3 0324",
+            "name": "DeepSeek V3 0324 (OpenRouter)",
             "icon": "deepseek-symbolic",
             "description": Translation.tr("Online via %1 | %2's model").arg("OpenRouter").arg("DeepSeek"),
             "homepage": "https://openrouter.ai/deepseek/deepseek-chat-v3-0324",
@@ -305,6 +305,18 @@ Singleton {
             "key_id": "openrouter",
             "key_get_link": "https://openrouter.ai/settings/keys",
             "key_get_description": Translation.tr("**Instructions**: Log into OpenRouter account, go to Keys on the topright menu, click Create API Key"),
+        }),
+        "deepseek-v4-flash": aiModelComponent.createObject(this, {
+            "name": "DeepSeek V4 Flash",
+            "icon": "deepseek-symbolic",
+            "description": "",
+            "homepage": "https://deepseek.com",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "model": "deepseek-v4-flash",
+            "requires_key": true,
+            "key_id": "deepseek",
+            "key_get_link": "https://platform.deepseek.com/api_keys",
+            "key_get_description": Translation.tr("**Instructions**: Log into DeepSeek account, create API keys"),
         }),
     }
     property var modelList: Object.keys(root.models)
