@@ -21,7 +21,7 @@ Singleton {
     property string to: Config.options?.light?.night?.to ?? "06:30"
     property bool automatic: Config.options?.light?.night?.automatic && (Config?.ready ?? true)
     property int colorTemperature: Config.options?.light?.night?.colorTemperature ?? 5000
-    property int defaultColorTemperature: 6000
+    property int defaultColorTemperature: 6500
     property int gamma: 100
     property bool shouldBeOn
     property bool firstEvaluation: true
