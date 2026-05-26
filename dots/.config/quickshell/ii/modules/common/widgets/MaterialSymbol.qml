@@ -18,6 +18,7 @@ StyledText {
             // "GRAD": 0,
             "opsz": iconSize,
         }
+        features: { "liga": 1 }
     }
 
     Behavior on fill { // Leaky leaky, no good
