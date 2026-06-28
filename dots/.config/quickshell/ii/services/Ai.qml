@@ -137,7 +137,10 @@ Singleton {
                     "function": {
                         "name": "get_shell_config",
                         "description": "Get the desktop shell config file contents",
-                        "parameters": {}
+                        "parameters": {
+                            "type": "object",
+                            "properties": {}
+                        }
                     },
                 },
                 {
@@ -189,7 +192,10 @@ Singleton {
                     "function": {
                         "name": "get_shell_config",
                         "description": "Get the desktop shell config file contents",
-                        "parameters": {}
+                        "parameters": {
+                            "type": "object",
+                            "properties": {}
+                        }
                     },
                 },
                 {
@@ -294,13 +300,13 @@ Singleton {
             "key_get_description": Translation.tr("**Instructions**: Log into Mistral account, go to Keys on the sidebar, click Create new key"),
             "api_format": "mistral",
         }),
-        "openrouter-deepseek-v3-0324": aiModelComponent.createObject(this, {
-            "name": "DeepSeek V3 0324 (OpenRouter)",
+        "openrouter-deepseek-v3.2": aiModelComponent.createObject(this, {
+            "name": "DeepSeek V3.2 (OpenRouter)",
             "icon": "deepseek-symbolic",
             "description": Translation.tr("Online via %1 | %2's model").arg("OpenRouter").arg("DeepSeek"),
-            "homepage": "https://openrouter.ai/deepseek/deepseek-chat-v3-0324",
+            "homepage": "https://openrouter.ai/deepseek/deepseek-v3.2",
             "endpoint": "https://openrouter.ai/api/v1/chat/completions",
-            "model": "deepseek/deepseek-chat-v3-0324",
+            "model": "deepseek/deepseek-v3.2",
             "requires_key": true,
             "key_id": "openrouter",
             "key_get_link": "https://openrouter.ai/settings/keys",
@@ -309,7 +315,7 @@ Singleton {
         "deepseek-v4-flash": aiModelComponent.createObject(this, {
             "name": "DeepSeek V4 Flash",
             "icon": "deepseek-symbolic",
-            "description": "",
+            "description": Translation.tr("Online via %1's model").arg("DeepSeek"),
             "homepage": "https://deepseek.com",
             "endpoint": "https://api.deepseek.com/chat/completions",
             "model": "deepseek-v4-flash",
