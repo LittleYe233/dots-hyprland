@@ -137,10 +137,7 @@ Singleton {
                     "function": {
                         "name": "get_shell_config",
                         "description": "Get the desktop shell config file contents",
-                        "parameters": {
-                            "type": "object",
-                            "properties": {}
-                        }
+                        "parameters": {}
                     },
                 },
                 {
@@ -192,10 +189,7 @@ Singleton {
                     "function": {
                         "name": "get_shell_config",
                         "description": "Get the desktop shell config file contents",
-                        "parameters": {
-                            "type": "object",
-                            "properties": {}
-                        }
+                        "parameters": {}
                     },
                 },
                 {
@@ -300,25 +294,25 @@ Singleton {
             "key_get_description": Translation.tr("**Instructions**: Log into Mistral account, go to Keys on the sidebar, click Create new key"),
             "api_format": "mistral",
         }),
-        "openrouter-deepseek-v3.2": aiModelComponent.createObject(this, {
-            "name": "DeepSeek V3.2 (OpenRouter)",
+        "openrouter-deepseek-v4.1": aiModelComponent.createObject(this, {
+            "name": "DeepSeek V4.1 Flash (OpenRouter)",
             "icon": "deepseek-symbolic",
             "description": Translation.tr("Online via %1 | %2's model").arg("OpenRouter").arg("DeepSeek"),
-            "homepage": "https://openrouter.ai/deepseek/deepseek-v3.2",
+            "homepage": "https://openrouter.ai/deepseek/deepseek-v4.1-flash",
             "endpoint": "https://openrouter.ai/api/v1/chat/completions",
-            "model": "deepseek/deepseek-v3.2",
+            "model": "deepseek/deepseek-v4.1-flash",
             "requires_key": true,
             "key_id": "openrouter",
             "key_get_link": "https://openrouter.ai/settings/keys",
             "key_get_description": Translation.tr("**Instructions**: Log into OpenRouter account, go to Keys on the topright menu, click Create API Key"),
         }),
         "deepseek-v4-flash": aiModelComponent.createObject(this, {
-            "name": "DeepSeek V4 Flash",
+            "name": "DeepSeek V4.1 Flash",
             "icon": "deepseek-symbolic",
             "description": Translation.tr("Online via %1's model").arg("DeepSeek"),
             "homepage": "https://deepseek.com",
             "endpoint": "https://api.deepseek.com/chat/completions",
-            "model": "deepseek-v4-flash",
+            "model": "deepseek-flash",
             "requires_key": true,
             "key_id": "deepseek",
             "key_get_link": "https://platform.deepseek.com/api_keys",
